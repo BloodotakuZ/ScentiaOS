@@ -130,6 +130,19 @@ The [Containerfile](./Containerfile) defines the operations used to customize th
 
 The [build.sh](./build_files/build.sh) file is called from your Containerfile. It is the best place to install new packages or make any other customization to your system. There are customization examples contained within it for your perusal.
 
+## Jakoolit Hyprland profile
+
+This image now bakes in [JaKooLit’s Hyprland setup](https://github.com/JaKooLit/Hyprland-Dots) so that every fresh user immediately lands in a fully themed environment:
+
+- The build pulls the same package set used by the Fedora-Hyprland installer (Hyprland core packages, SwayNotificationCenter, nwg-look/displays, cliphist, wallust, swww, Thunar extras, zsh tooling, etc.), enables the needed COPR repositories, and flips Bluetooth plus SDDM on by default.
+- RPM Fusion’s latest `akmod-nvidia` stack (with `xorg-x11-drv-nvidia-cuda` and VA-API bits) is preinstalled so NVIDIA systems work out-of-the-box; edit `~/.config/hypr/UserConfigs/ENVariables.conf` after first boot if you need extra tweaks.
+- `/usr/share/jakoolit-hyprland/Hyprland-Dots` contains an up-to-date clone of the upstream dotfiles (with wallpapers) and `/usr/share/jakoolit-hyprland/fedora-assets` ships JaKooLit’s GTK/Thunar/zsh assets. New user accounts inherit everything via `/etc/skel`, including executable Hypr scripts, the waybar presets, pictures, and default `.zshrc/.zprofile`.
+- Fonts, GTK themes, icon themes, Bibata hyprcursors, and the `simple_sddm_2` theme are pre-installed system-wide so Hyprland lock/login screens match JaKooLit’s visuals out of the box. Wallpapers are also published under `/usr/share/backgrounds/jakoolit`.
+- Existing users can re-sync to the curated setup at any time:
+  1. `cd /usr/share/jakoolit-hyprland/Hyprland-Dots`
+  2. Run `./copy.sh` (it behaves just like JaKooLit’s instructions, creating backups and asking before overwriting).
+- Optional wallpapers remain available from [`JaKooLit/Wallpaper-Bank`](https://github.com/JaKooLit/Wallpaper-Bank) if you want the larger 1 GB pack—run the copy script to download them later.
+
 ## build.yml
 
 The [build.yml](./.github/workflows/build.yml) Github Actions workflow creates your custom OCI image and publishes it to the Github Container Registry (GHCR). By default, the image name will match the Github repository name. There are several environment variables at the start of the workflow which may be of interest to change.
