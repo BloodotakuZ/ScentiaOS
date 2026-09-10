@@ -4,16 +4,23 @@
 version: 1
 
 name: scentia
-description: ScentiaOS - local Bazzite NVIDIA Open build
+description: ScentiaOS - Local Bazzite NVIDIA Open Hyprland Build
 
 base-image: ghcr.io/ublue-os/bazzite-nvidia-open
-image-version: stable
+image-version: testing
 
 blue-build-tag: none
 cosign-version: none
 nushell-version: none
 
 modules:
-  - type: containerfile
-    snippets:
-      - RUN true
+  - type: dnf
+    repos:
+      cleanup: true
+      copr:
+        - giperborey/Hyprland
+
+    install:
+      packages:
+        - hyprland
+        - noctalia
