@@ -1,0 +1,19 @@
+---
+# yaml-language-server: $schema=https://schema.blue-build.org/recipe-v1.json
+
+version: 1
+
+name: scentia
+description: ScentiaOS - local Bazzite NVIDIA Open build
+
+base-image: ghcr.io/ublue-os/bazzite-nvidia-open
+image-version: stable
+
+blue-build-tag: none
+cosign-version: none
+nushell-version: none
+
+modules:
+  - type: containerfile
+    snippets:
+      - RUN true
