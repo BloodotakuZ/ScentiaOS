@@ -14,6 +14,10 @@ cosign-version: none
 nushell-version: none
 
 modules:
+  # ==========================================================
+  # Hyprland / desktop packages
+  # ==========================================================
+
   - type: dnf
     repos:
       cleanup: true
@@ -22,16 +26,22 @@ modules:
 
     install:
       packages:
-        # Desktop
         - hyprland
         - noctalia
         - uwsm
 
-        # Applications
         - kitty
         - Thunar
 
-        # Desktop integration
         - xdg-utils
         - xdg-desktop-portal-hyprland
         - xdg-desktop-portal-gtk
+
+  # ==========================================================
+  # Scentia configuration
+  # ==========================================================
+
+  - type: files
+    files:
+      - source: system
+        destination: /
