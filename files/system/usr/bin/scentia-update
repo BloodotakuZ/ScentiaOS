@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+REPO="${SCENTIA_REPO:-$HOME/ScentiaOS}"
+RECIPE="$REPO/recipes/recipe.yml"
+
+echo "========================================"
+echo "        ScentiaOS System Update"
+echo "========================================"
+echo
+
+if [[ ! -f "$RECIPE" ]]; then
+    echo "Error: ScentiaOS recipe not found:"
+    echo "  $RECIPE"
+    exit 1
+fi
+
+cd "$REPO"
+
+echo "Building ScentiaOS from the latest Bazzite base..."
+echo
+
+bluebuild switch "$RECIPE"
+
+echo
+echo "========================================"
+echo " ScentiaOS update successfully deployed"
+echo "========================================"
+echo
+echo "Reboot to enter the new deployment."
+echo
+rpm-ostree status
