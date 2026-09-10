@@ -1,3 +1,5 @@
+require("config.variables")
+require("config.monitors")
 -- ============================================================
 -- ScentiaOS Hyprland Configuration
 -- ============================================================
@@ -45,3 +47,4 @@ for i = 1, 9 do
         hl.dsp.focus({ workspace = i })
     )
 end
+require("config.binds")
