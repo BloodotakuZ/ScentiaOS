@@ -33,11 +33,13 @@ modules:
       cleanup: true
       copr:
         - giperborey/Hyprland
+        - ilyaz/LACT
 
     install:
       packages:
         - hyprland
         - noctalia
+        - lact
         - uwsm
 
         - kitty
@@ -63,3 +65,12 @@ modules:
   # ==========================================================
 
   - type: initramfs
+
+  # ==========================================================
+  # LACT GPU control daemon
+  # ==========================================================
+
+  - type: systemd
+    system:
+      enabled:
+        - lactd.service
