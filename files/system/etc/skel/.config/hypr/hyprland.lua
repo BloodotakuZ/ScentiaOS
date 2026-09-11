@@ -4,6 +4,7 @@
 
 require("config.variables")
 require("config.monitors")
+require("config.xwayland")
 require("config.appearance")
 require("config.binds")
 

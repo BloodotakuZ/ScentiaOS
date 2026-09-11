@@ -74,3 +74,13 @@ modules:
     system:
       enabled:
         - lactd.service
+
+  # ==========================================================
+  # Heroic Games Launcher
+  # Latest official upstream RPM
+  # ==========================================================
+
+  - type: script
+    no-cache: true
+    scripts:
+      - install-heroic.sh

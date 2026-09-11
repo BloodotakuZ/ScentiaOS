@@ -1,32 +1,58 @@
 #!/usr/bin/env bash
+
 set -euo pipefail
 
 REPO="${SCENTIA_REPO:-$HOME/ScentiaOS}"
-RECIPE="$REPO/recipes/recipe.yml"
+RECIPE="$REPO/recipes/recipe-cachy.yml"
 
-echo "========================================"
-echo "        ScentiaOS System Update"
-echo "========================================"
+echo "============================================================"
+echo " ScentiaOS Update"
+echo "============================================================"
 echo
 
-if [[ ! -f "$RECIPE" ]]; then
-    echo "Error: ScentiaOS recipe not found:"
+if ! command -v bluebuild >/dev/null 2>&1; then
+    echo "ERROR: bluebuild is not installed."
+    exit 1
+fi
+
+if [ ! -f "$RECIPE" ]; then
+    echo "ERROR: Cannot find:"
     echo "  $RECIPE"
     exit 1
 fi
 
 cd "$REPO"
 
-echo "Building ScentiaOS from the latest Bazzite base..."
+echo "Updating ScentiaOS..."
+echo
+echo "  Bazzite testing"
+echo "       +"
+echo "  latest CachyOS kernel"
+echo "       +"
+echo "  matching NVIDIA Open modules"
+echo "       +"
+echo "  Scentia configuration"
 echo
 
 bluebuild switch "$RECIPE"
 
 echo
-echo "========================================"
-echo " ScentiaOS update successfully deployed"
-echo "========================================"
+echo "============================================================"
+echo " ScentiaOS update staged successfully"
+echo "============================================================"
 echo
-echo "Reboot to enter the new deployment."
-echo
+
 rpm-ostree status
+
+echo
+read -r -p "Reboot into the new ScentiaOS image now? [y/N] " answer
+
+case "$answer" in
+    y|Y|yes|YES|Yes)
+        systemctl reboot
+        ;;
+    *)
+        echo
+        echo "Reboot whenever you're ready."
+        ;;
+esac
