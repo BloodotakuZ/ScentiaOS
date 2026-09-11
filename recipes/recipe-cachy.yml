@@ -1,0 +1,65 @@
+---
+# yaml-language-server: $schema=https://schema.blue-build.org/recipe-v1.json
+
+version: 1
+
+name: scentia-cachy
+description: ScentiaOS - Bazzite NVIDIA Open with CachyOS kernel
+
+base-image: ghcr.io/ublue-os/bazzite-nvidia-open
+image-version: testing
+
+blue-build-tag: none
+cosign-version: none
+nushell-version: none
+
+modules:
+
+  # ==========================================================
+  # CachyOS kernel + locally rebuilt NVIDIA Open modules
+  # ==========================================================
+
+  - type: script
+    scripts:
+      - install-cachy-kernel.sh
+
+
+  # ==========================================================
+  # Scentia desktop
+  # ==========================================================
+
+  - type: dnf
+    repos:
+      cleanup: true
+      copr:
+        - giperborey/Hyprland
+
+    install:
+      packages:
+        - hyprland
+        - noctalia
+        - uwsm
+
+        - kitty
+        - Thunar
+
+        - xdg-utils
+        - xdg-desktop-portal-hyprland
+        - xdg-desktop-portal-gtk
+
+
+  # ==========================================================
+  # Your Scentia configuration
+  # ==========================================================
+
+  - type: files
+    files:
+      - source: system
+        destination: /
+
+
+  # ==========================================================
+  # Rebuild initramfs AFTER kernel and NVIDIA changes
+  # ==========================================================
+
+  - type: initramfs
