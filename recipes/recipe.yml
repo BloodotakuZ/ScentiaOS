@@ -45,3 +45,15 @@ modules:
     files:
       - source: system
         destination: /
+
+  # Replace Bazzite/Terra WirePlumber 0.5.17 with Fedora's newer build.
+  # 0.5.18 fixes Bluetooth HFP capture dying after profile switching.
+  - type: dnf
+    replace:
+      - from-repo: updates
+        allow-erasing: true
+        packages:
+          - old: terra-wireplumber
+            new: wireplumber
+          - old: terra-wireplumber-libs
+            new: wireplumber-libs
