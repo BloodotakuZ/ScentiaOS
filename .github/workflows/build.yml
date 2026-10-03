@@ -28,6 +28,7 @@ jobs:
       matrix:
         recipe:
           - recipe-cachy.yml
+          - recipe-stock-kernel-test.yml
 
     steps:
       - name: Build Custom Image
