@@ -58,6 +58,7 @@ modules:
   - type: script
     scripts:
       - fix-wireplumber.sh
+      - fix-bluez.sh
 
 
   # ==========================================================
