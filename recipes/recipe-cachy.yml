@@ -4,7 +4,7 @@
 version: 1
 
 name: scentia-cachy
-description: ScentiaOS - Bazzite NVIDIA Open with CachyOS kernel
+description: ScentiaOS - Bazzite NVIDIA Open testing + Bazzite DX tooling + CachyOS kernel
 
 base-image: ghcr.io/ublue-os/bazzite-nvidia-open
 image-version: testing
@@ -14,6 +14,18 @@ cosign-version: none
 nushell-version: none
 
 modules:
+
+  # ==========================================================
+  # Bazzite DX developer layer
+  #
+  # Keeps Bazzite testing underneath while adding the
+  # developer tooling from Bazzite DX.
+  # ==========================================================
+
+  - type: script
+    scripts:
+      - install-bazzite-dx.sh
+
 
   # ==========================================================
   # CachyOS kernel + locally rebuilt NVIDIA Open modules
@@ -51,8 +63,7 @@ modules:
 
 
   # ==========================================================
-  # WirePlumber
-  # Replace Bazzite/Terra 0.5.17 with Fedora 0.5.18+
+  # WirePlumber / Bluetooth fixes
   # ==========================================================
 
   - type: script
@@ -79,13 +90,16 @@ modules:
 
 
   # ==========================================================
-  # LACT GPU control daemon
+  # Scentia + DX services
   # ==========================================================
 
   - type: systemd
     system:
       enabled:
         - lactd.service
+        - docker.socket
+        - podman.socket
+        - ublue-system-setup.service
 
 
   # ==========================================================
