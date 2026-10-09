@@ -15,17 +15,17 @@ nushell-version: none
 
 modules:
 
-  # ==========================================================
-  # IMPORTANT:
-  # No CachyOS kernel replacement in this image.
-  # The stock Bazzite kernel + NVIDIA Open stack is retained.
-  # ==========================================================
+  # Keep the stock Bazzite kernel and NVIDIA Open stack
 
+  # Fix Terra Xwayland conflict before Hyprland installation
+  - type: dnf
+    replace:
+      - from-repo: updates
+        packages:
+          - old: terra-xorg-x11-server-Xwayland
+            new: xorg-x11-server-Xwayland
 
-  # ==========================================================
   # Scentia desktop
-  # ==========================================================
-
   - type: dnf
     repos:
       cleanup: true
@@ -39,49 +39,31 @@ modules:
         - noctalia
         - lact
         - uwsm
-
         - kitty
         - Thunar
-
         - xdg-utils
         - xdg-desktop-portal-hyprland
         - xdg-desktop-portal-gtk
 
-
-  # ==========================================================
-  # Same Bluetooth/audio stack as scentia-cachy
-  # ==========================================================
-
+  # Bluetooth and audio fixes
   - type: script
     scripts:
       - fix-wireplumber.sh
       - fix-bluez.sh
 
-
-  # ==========================================================
   # Scentia configuration
-  # ==========================================================
-
   - type: files
     files:
       - source: system
         destination: /
 
-
-  # ==========================================================
-  # LACT GPU control daemon
-  # ==========================================================
-
+  # LACT service
   - type: systemd
     system:
       enabled:
         - lactd.service
 
-
-  # ==========================================================
   # Heroic Games Launcher
-  # ==========================================================
-
   - type: script
     no-cache: true
     scripts:

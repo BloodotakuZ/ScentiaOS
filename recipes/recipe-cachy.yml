@@ -15,31 +15,25 @@ nushell-version: none
 
 modules:
 
-  # ==========================================================
-  # Bazzite DX developer layer
-  #
-  # Keeps Bazzite testing underneath while adding the
-  # developer tooling from Bazzite DX.
-  # ==========================================================
-
+  # Bazzite DX developer tooling
   - type: script
     scripts:
       - install-bazzite-dx.sh
 
-
-  # ==========================================================
-  # CachyOS kernel + locally rebuilt NVIDIA Open modules
-  # ==========================================================
-
+  # CachyOS kernel and NVIDIA Open modules
   - type: script
     scripts:
       - install-cachy-kernel.sh
 
+  # Fix Terra Xwayland conflict before Hyprland installation
+  - type: dnf
+    replace:
+      - from-repo: updates
+        packages:
+          - old: terra-xorg-x11-server-Xwayland
+            new: xorg-x11-server-Xwayland
 
-  # ==========================================================
   # Scentia desktop
-  # ==========================================================
-
   - type: dnf
     repos:
       cleanup: true
@@ -53,46 +47,28 @@ modules:
         - noctalia
         - lact
         - uwsm
-
         - kitty
         - Thunar
-
         - xdg-utils
         - xdg-desktop-portal-hyprland
         - xdg-desktop-portal-gtk
 
-
-  # ==========================================================
-  # WirePlumber / Bluetooth fixes
-  # ==========================================================
-
+  # WirePlumber and Bluetooth fixes
   - type: script
     scripts:
       - fix-wireplumber.sh
       - fix-bluez.sh
 
-
-  # ==========================================================
   # Scentia configuration
-  # ==========================================================
-
   - type: files
     files:
       - source: system
         destination: /
 
-
-  # ==========================================================
-  # Rebuild initramfs AFTER kernel and NVIDIA changes
-  # ==========================================================
-
+  # Rebuild initramfs after kernel and NVIDIA changes
   - type: initramfs
 
-
-  # ==========================================================
-  # Scentia + DX services
-  # ==========================================================
-
+  # Scentia and DX services
   - type: systemd
     system:
       enabled:
@@ -101,12 +77,7 @@ modules:
         - podman.socket
         - ublue-system-setup.service
 
-
-  # ==========================================================
   # Heroic Games Launcher
-  # Latest official upstream RPM
-  # ==========================================================
-
   - type: script
     no-cache: true
     scripts:
